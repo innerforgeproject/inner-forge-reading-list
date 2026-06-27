@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Inner Forge — Reading List</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0e0d0b;
+    --charcoal: #1a1814;
+    --iron: #2a2720;
+    --ash: #3d3a34;
+    --ember: #c4622a;
+    --ember-dim: #7a3a18;
+    --warm-white: #f0ebe3;
+    --muted: #8a8278;
+    --gold: #b8922a;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--warm-white); font-family: 'Barlow', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+
+  /* DISCLOSURE */
+  .disclosure {
+    background: var(--charcoal);
+    border-bottom: 1px solid var(--ash);
+    padding: 10px 24px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 60px 24px 80px; }
+
+  /* HEADER */
+  header { margin-bottom: 56px; border-bottom: 1px solid var(--ash); padding-bottom: 40px; }
+  .brand { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em; color: var(--ember); text-transform: uppercase; margin-bottom: 16px; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 6vw, 60px); font-weight: 600; line-height: 1.05; color: var(--warm-white); margin-bottom: 16px; }
+  h1 span { color: var(--ember); }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; color: var(--muted); line-height: 1.6; max-width: 600px; }
+
+  /* CONTROLS */
+  .controls { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+  .ctrl-btn { background: var(--iron); border: 1px solid var(--ash); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; padding: 7px 16px; border-radius: 2px; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+  .ctrl-btn:hover { background: var(--ash); color: var(--warm-white); border-color: var(--ember); }
+
+  /* THEME CARD */
+  .theme-card { background: var(--charcoal); border: 1px solid var(--iron); border-left: 3px solid var(--ember-dim); border-radius: 4px; margin-bottom: 24px; overflow: hidden; transition: border-left-color 0.2s; }
+  .theme-card:hover { border-left-color: var(--ember); }
+
+  .theme-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; cursor: pointer; user-select: none; gap: 16px; }
+  .theme-meta { display: flex; align-items: baseline; gap: 20px; flex: 1; }
+  .theme-number { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 400; color: var(--ash); line-height: 1; min-width: 52px; }
+  .theme-info { flex: 1; }
+  .theme-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--ember); text-transform: uppercase; margin-bottom: 4px; }
+  .theme-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--warm-white); line-height: 1.2; }
+  .theme-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 4px; letter-spacing: 0.1em; }
+  .toggle-icon { font-family: 'DM Mono', monospace; font-size: 20px; color: var(--ash); transition: transform 0.3s, color 0.2s; flex-shrink: 0; }
+  .theme-card.open .toggle-icon { transform: rotate(45deg); color: var(--ember); }
+
+  /* THEME BODY */
+  .theme-body { display: none; padding: 0 28px 28px; border-top: 1px solid var(--iron); }
+  .theme-card.open .theme-body { display: block; }
+
+  /* BOOK CARD */
+  .book-card { margin-top: 24px; background: var(--iron); border-radius: 4px; padding: 20px 22px; transition: border-left 0.2s; border-left: 2px solid transparent; }
+  .book-card:hover { border-left-color: var(--gold); }
+
+  .book-title-line { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .book-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; font-style: italic; color: var(--warm-white); text-decoration: none; line-height: 1.3; transition: color 0.2s; }
+  .book-title:hover { color: var(--gold); }
+  .book-author { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ember); white-space: nowrap; }
+  .book-summary { font-size: 14px; color: #c8c0b4; line-height: 1.75; }
+
+  /* WOMEN'S SECTION */
+  .women-card { border-left-color: var(--gold); }
+  .women-card .theme-label { color: var(--gold); }
+  .women-card .toggle-icon { }
+  .women-card.open .toggle-icon { color: var(--gold); }
+  .women-intro-block { margin-top: 24px; background: var(--iron); border-left: 2px solid var(--gold); padding: 16px 20px; border-radius: 2px; }
+  .women-intro-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--muted); line-height: 1.7; }
+
+  /* FOOTER */
+  footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--iron); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--muted); }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ember-dim); letter-spacing: 0.15em; }
+
+  @media (max-width: 480px) {
+    .container { padding: 40px 16px 60px; }
+    .theme-header { padding: 16px 18px; }
+    .theme-body { padding: 0 18px 22px; }
+    .theme-number { font-size: 30px; min-width: 38px; }
+    .book-card { padding: 16px 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-card, .toggle-icon, .book-card, .book-title { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="disclosure">
+  Affiliate disclosure: Some links below are Amazon affiliate links. If you purchase through them, I may earn a small commission — at no extra cost to you. I only recommend books I believe in.
+</div>
+
+<div class="container">
+
+  <header>
+    <div class="brand">The Inner Forge — @TheInnerForge</div>
+    <h1>Books That Built<br><span>Real Men</span></h1>
+    <p class="hero-sub">Not comfort reads. Not quick fixes. These are books written by men who went into the fire and came back with something true — organized by the seven themes of the Inner Forge.</p>
+  </header>
+
+  <div class="controls">
+    <button class="ctrl-btn" onclick="expandAll()">Expand All</button>
+    <button class="ctrl-btn" onclick="collapseAll()">Collapse All</button>
+  </div>
+
+  <!-- THEME I: IDENTITY -->
+  <div class="theme-card" id="theme-1">
+    <div class="theme-header" onclick="toggleTheme('theme-1')">
+      <div class="theme-meta">
+        <div class="theme-number">I</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme One</div>
+          <div class="theme-title">Identity &amp; Who You Are</div>
+          <div class="theme-count">4 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Man's Search for Meaning</a>
+          <span class="book-author">— Viktor Frankl</span>
+        </div>
+        <p class="book-summary">Written in a Nazi concentration camp, this is the most important book ever written about identity under pressure. Frankl's central argument — that a man can survive anything if he has a reason to — is the foundation everything else is built on. Read this first.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Iron John: A Book About Men</a>
+          <span class="book-author">— Robert Bly</span>
+        </div>
+        <p class="book-summary">The book that launched the men's inner work movement. Bly uses the Grimm fairy tale of Iron John to trace the journey from boyhood to authentic masculine identity — and to name what goes wrong when that journey is interrupted. Dense, mythic, essential.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">No More Mr. Nice Guy</a>
+          <span class="book-author">— Robert Glover</span>
+        </div>
+        <p class="book-summary">If you've ever said yes when you meant no, performed pleasantness to avoid conflict, or given yourself away to keep the peace — this book names the pattern and breaks it. Glover calls it the Nice Guy Syndrome. Most men have it. Few know it.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Way of the Superior Man</a>
+          <span class="book-author">— David Deida</span>
+        </div>
+        <p class="book-summary">A direct challenge to every man who has softened himself into someone unrecognizable. Deida writes about masculine purpose, presence, and sexual polarity with a clarity that most men find either liberating or confronting. Usually both.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME II: FEAR & COURAGE -->
+  <div class="theme-card" id="theme-2">
+    <div class="theme-header" onclick="toggleTheme('theme-2')">
+      <div class="theme-meta">
+        <div class="theme-number">II</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Two</div>
+          <div class="theme-title">Fear &amp; Courage</div>
+          <div class="theme-count">3 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The War of Art</a>
+          <span class="book-author">— Steven Pressfield</span>
+        </div>
+        <p class="book-summary">Pressfield calls the force that keeps men small "Resistance" — and he treats it as a real enemy. This is the book for any man who knows what he's supposed to do and keeps not doing it. Short, brutal, accurate.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Gates of Fire</a>
+          <span class="book-author">— Steven Pressfield</span>
+        </div>
+        <p class="book-summary">A novel about the 300 Spartans at Thermopylae that reads like a manual on how to face death — and by extension, how to face anything. The courage modeled here is not the absence of fear. It is action in spite of it. One of the most powerful books ever written about men under pressure.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Alchemist</a>
+          <span class="book-author">— Paulo Coelho</span>
+        </div>
+        <p class="book-summary">The story of a young man who risks everything to pursue his Personal Legend — and discovers that the universe conspires to help those who dare. Deceptively simple. Quietly devastating. The fear it addresses is the fear of your own potential.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME III: DISCIPLINE & ACTION -->
+  <div class="theme-card" id="theme-3">
+    <div class="theme-header" onclick="toggleTheme('theme-3')">
+      <div class="theme-meta">
+        <div class="theme-number">III</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Three</div>
+          <div class="theme-title">Discipline &amp; Action</div>
+          <div class="theme-count">4 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Meditations</a>
+          <span class="book-author">— Marcus Aurelius</span>
+        </div>
+        <p class="book-summary">A Roman emperor's private journal — never meant to be published — in which he holds himself accountable to his own values every single day. Two thousand years old. Nothing has come close. The original inner work manual for men who lead.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Can't Hurt Me</a>
+          <span class="book-author">— David Goggins</span>
+        </div>
+        <p class="book-summary">Goggins grew up in poverty, endured abuse, and became one of the most physically elite human beings alive. This isn't a fitness book — it's a book about the war between the man you are and the man you're capable of becoming. Uncompromising and earned.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Atomic Habits</a>
+          <span class="book-author">— James Clear</span>
+        </div>
+        <p class="book-summary">The most practical system ever written for closing the gap between intention and action. Clear's insight — that you don't rise to the level of your goals, you fall to the level of your systems — is the kind of truth that makes a man reorganize his entire life.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Obstacle Is the Way</a>
+          <span class="book-author">— Ryan Holiday</span>
+        </div>
+        <p class="book-summary">Holiday translates Stoic philosophy into a modern framework for turning adversity into fuel. Built on the lives of men who faced impossible circumstances and used them as a foundation rather than an excuse. This book changes how you read everything that goes wrong.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME IV: STEADINESS & GROUNDING -->
+  <div class="theme-card" id="theme-4">
+    <div class="theme-header" onclick="toggleTheme('theme-4')">
+      <div class="theme-meta">
+        <div class="theme-number">IV</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Four</div>
+          <div class="theme-title">Steadiness &amp; Grounding</div>
+          <div class="theme-count">3 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Stillness Is the Key</a>
+          <span class="book-author">— Ryan Holiday</span>
+        </div>
+        <p class="book-summary">In a world that rewards relentless motion, Holiday makes the case for stillness as the source of everything — clarity, courage, wisdom, presence. He draws on warriors, athletes, artists, and philosophers who all arrived at the same place: the man who can be still cannot be shaken.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Power of Now</a>
+          <span class="book-author">— Eckhart Tolle</span>
+        </div>
+        <p class="book-summary">Strip away the spiritual vocabulary and what Tolle is saying is this: most of your suffering is not happening right now. It is happening in your mind, in the past or future you carry with you. Learning to be here is the most radical act of self-liberation available to any man.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Letters from a Stoic</a>
+          <span class="book-author">— Seneca</span>
+        </div>
+        <p class="book-summary">Letters written by a Roman statesman to a younger man, sharing everything he'd learned about how to live. Two thousand years later, the advice is still the sharpest available on time, loss, friendship, fear, and the only wealth that actually matters. Read one letter a day.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME V: RELATIONSHIPS & CONNECTION -->
+  <div class="theme-card" id="theme-5">
+    <div class="theme-header" onclick="toggleTheme('theme-5')">
+      <div class="theme-meta">
+        <div class="theme-number">V</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Five</div>
+          <div class="theme-title">Relationships &amp; Connection</div>
+          <div class="theme-count">3 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Road Less Traveled</a>
+          <span class="book-author">— M. Scott Peck</span>
+        </div>
+        <p class="book-summary">Opens with three words that have stopped more men cold than almost any others: "Life is difficult." Peck's exploration of love, discipline, and spiritual growth remains the most honest thing written about what it actually takes to build a real relationship — starting with yourself.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Models: Attract Women Through Honesty</a>
+          <span class="book-author">— Mark Manson</span>
+        </div>
+        <p class="book-summary">Despite the title, this is not a dating book. It's a book about authenticity in relationship — about the radical idea that being genuinely yourself is the most attractive thing a man can do. Manson cuts through performance with surgical precision.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Tribe: On Homecoming and Belonging</a>
+          <span class="book-author">— Sebastian Junger</span>
+        </div>
+        <p class="book-summary">Junger asks why soldiers often miss war — and discovers it isn't the violence they miss. It's the belonging. This book is a devastating indictment of modern isolation and a blueprint for what men actually need from each other: shared purpose, mutual accountability, real brotherhood.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME VI: PURPOSE & AMBITION -->
+  <div class="theme-card" id="theme-6">
+    <div class="theme-header" onclick="toggleTheme('theme-6')">
+      <div class="theme-meta">
+        <div class="theme-number">VI</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Six</div>
+          <div class="theme-title">Purpose &amp; Ambition</div>
+          <div class="theme-count">3 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Start with Why</a>
+          <span class="book-author">— Simon Sinek</span>
+        </div>
+        <p class="book-summary">Sinek's core insight is simple and rarely followed: great men and great movements don't start with what they do. They start with why they exist. The men who build something that outlasts them always know their why before anything else.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">The Millionaire Fastlane</a>
+          <span class="book-author">— MJ DeMarco</span>
+        </div>
+        <p class="book-summary">The most honest book about wealth-building available — because it begins by calling out the myths most men operate on. DeMarco's central argument: trading hours for dollars, no matter the hourly rate, is a slow road to nowhere. Freedom requires building systems, not selling time.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Man's Search for Meaning</a>
+          <span class="book-author">— Viktor Frankl</span>
+        </div>
+        <p class="book-summary">Yes, it appears twice. Because purpose and identity are the same wound approached from different directions. Read it the second time specifically for Frankl's concept of meaning — that it cannot be invented, only discovered, and that it is specific to each man alone.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THEME VII: SOLITUDE & REFLECTION -->
+  <div class="theme-card" id="theme-7">
+    <div class="theme-header" onclick="toggleTheme('theme-7')">
+      <div class="theme-meta">
+        <div class="theme-number">VII</div>
+        <div class="theme-info">
+          <div class="theme-label">Theme Seven</div>
+          <div class="theme-title">Solitude &amp; Reflection</div>
+          <div class="theme-count">3 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Walden</a>
+          <span class="book-author">— Henry David Thoreau</span>
+        </div>
+        <p class="book-summary">Thoreau went into the woods alone for two years to answer one question: what does a man actually need? What he found — and documented with extraordinary precision — is still the most rigorous examination of simplicity, solitude, and deliberate living ever written.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Siddhartha</a>
+          <span class="book-author">— Hermann Hesse</span>
+        </div>
+        <p class="book-summary">A young man leaves everything — family, wealth, spiritual teachers — to find his own truth. Hesse's novel is the story of a man who refuses to accept anyone else's map of the territory. The ending is one of the most quietly powerful in all of literature.</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">A Calendar of Wisdom</a>
+          <span class="book-author">— Leo Tolstoy</span>
+        </div>
+        <p class="book-summary">Tolstoy spent the last years of his life compiling one thought for every day of the year — drawing from the world's greatest thinkers across every tradition. It is the closest thing to a daily conversation with the wisest men who ever lived. Keep it on your desk.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WOMEN'S SECTION -->
+  <div class="theme-card women-card" id="theme-women" style="border-left-color: var(--gold); margin-top: 48px;">
+    <div class="theme-header" onclick="toggleTheme('theme-women')">
+      <div class="theme-meta">
+        <div class="theme-number" style="color: var(--gold); font-size: 28px; padding-top: 6px;">✦</div>
+        <div class="theme-info">
+          <div class="theme-label" style="color: var(--gold);">A Note Apart</div>
+          <div class="theme-title">They Saw Us Clearly —<br><em style="font-family: Cormorant Garamond, serif; font-style: italic; font-weight: 400; color: var(--muted);">Women Who Wrote Truth Men Needed to Hear</em></div>
+          <div class="theme-count">4 books</div>
+        </div>
+      </div>
+      <div class="toggle-icon">+</div>
+    </div>
+    <div class="theme-body">
+
+      <div class="women-intro-block">
+        <p class="women-intro-text">A man secure in himself doesn't need to limit where wisdom comes from. These women wrote about connection, desire, vulnerability, and belonging with a clarity that most men's books never reach. Read them without apology.</p>
+      </div>
+
+      <div class="book-card" style="border-left-color: var(--gold);">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Mating in Captivity</a>
+          <span class="book-author">— Esther Perel</span>
+        </div>
+        <p class="book-summary">The most honest book about desire in long-term relationship ever written. Perel identifies the central paradox — that security and passion pull in opposite directions — and refuses to offer a comfortable resolution. Every man in a relationship needs this. Every man who has lost one needs it more.</p>
+      </div>
+
+      <div class="book-card" style="border-left-color: var(--gold);">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">Daring Greatly</a>
+          <span class="book-author">— Brené Brown</span>
+        </div>
+        <p class="book-summary">Brown spent years researching shame and vulnerability — and discovered that the men suffering most were the ones who had been most thoroughly taught that vulnerability was weakness. This book is the clinical demolition of that lie. If you've ever shut down rather than been seen, read this.</p>
+      </div>
+
+      <div class="book-card" style="border-left-color: var(--gold);">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">All About Love: New Visions</a>
+          <span class="book-author">— bell hooks</span>
+        </div>
+        <p class="book-summary">hooks argues that most of what we call love is not love at all — it is need, possession, performance, or habit. Real love, she writes, requires will, intention, and daily choice. This is not a comfortable book. It is the kind of uncomfortable that changes how you treat everyone you care about.</p>
+      </div>
+
+      <div class="book-card" style="border-left-color: var(--gold);">
+        <div class="book-title-line">
+          <a href="https://amzn.to/PLACEHOLDER" class="book-title">When Things Fall Apart</a>
+          <span class="book-author">— Pema Chödrön</span>
+        </div>
+        <p class="book-summary">Written for anyone in the middle of something breaking down. Chödrön — a Buddhist teacher who has sat with more human pain than most — offers something rare: a practical, honest guide to staying present in the worst moments rather than numbing, fixing, or fleeing. Men in crisis need this book.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">The Inner Forge</div>
+    <div class="footer-note">Stop performing. Start becoming. · @TheInnerForge</div>
+  </footer>
+
+</div>
+
+<script>
+  function toggleTheme(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+  function expandAll() {
+    document.querySelectorAll('.theme-card').forEach(c => c.classList.add('open'));
+  }
+  function collapseAll() {
+    document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('open'));
+  }
+</script>
+
+</body>
+</html>
